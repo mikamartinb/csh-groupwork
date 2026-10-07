@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>World Tour Atlas</title>
+
+<!-- Google Font: IBM Plex Mono (used everywhere, see style.css) -->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600;700&display=swap">
+
+<!-- Leaflet (map library) -->
+<link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css">
+
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<div class="app">
+
+  <!-- ===== Header ===== -->
+  <header class="header">
+    <h1>World Tour Atlas</h1>
+    <span class="subtitle">Mapping world tour coverage of music artists</span>
+    <span class="header-count" id="headerCount"></span>
+  </header>
+
+  <!-- ===== Sidebar: search, filters, stats, results list ===== -->
+  <aside class="sidebar">
+    <div class="sidebar-scroll">
+
+      <!-- Search -->
+      <div class="field">
+        <label class="field-label" for="searchInput">Search</label>
+        <div class="search-wrap">
+          <input class="search-input" id="searchInput" type="text"
+                 placeholder="Artist, tour, city, country... e.g. Taylor Swift" autocomplete="off">
+          <button class="clear-btn" id="searchClear" type="button" aria-label="Clear search">&times;</button>
+          <div class="suggest" id="suggest"></div>
+        </div>
+      </div>
+
+      <!-- Filters -->
+      <div class="field">
+        <label class="field-label">Filters</label>
+        <div class="filter-row">
+          <select class="select" id="genreSelect"></select>
+          <select class="select" id="decadeFromSelect"></select>
+          <select class="select" id="decadeToSelect"></select>
+        </div>
+        <div class="filter-row">
+          <select class="select" id="continentSelect"></select>
+          <select class="select" id="worldTourSelect"></select>
+        </div>
+        <div class="filter-row">
+          <div class="city-wrap">
+            <input id="cityInput" type="text" list="cityList" placeholder="Filter by city... e.g. London" autocomplete="off">
+            <datalist id="cityList"></datalist>
+            <button id="cityClear" type="button" aria-label="Clear city filter">&times;</button>
+          </div>
+        </div>
+        <div class="chips" id="chips"></div>
+      </div>
+
+      <!-- Stats -->
+      <div class="stats" id="stats"></div>
+
+      <!-- Results -->
+      <div class="results-panel">
+        <div class="section-title">
+          <span>Results</span>
+          <span id="resultsCount"></span>
+        </div>
+        <div class="view-toggle" id="viewToggle">
+          <button type="button" class="view-btn active" data-view="tours">Tour Ranking</button>
+          <button type="button" class="view-btn" data-view="cities">City Canon</button>
+        </div>
+        <div class="sort-row" id="sortRow">
+          <select class="select" id="sortField">
+            <option value="artist">Artist (A&ndash;Z)</option>
+            <option value="countries">Coverage: Countries</option>
+            <option value="continents">Continents</option>
+            <option value="shows">Shows</option>
+            <option value="decade">Decade</option>
+          </select>
+          <button class="sort-dir-btn" id="sortDirBtn" type="button" aria-label="Reverse sort direction">&#8595;</button>
+        </div>
+        <div class="results" id="results"></div>
+      </div>
+
+    </div>
+  </aside>
+
+  <!-- ===== Map ===== -->
+  <div class="map-wrap">
+    <div id="map"></div>
+  </div>
+
+  <!-- ===== Tour detail modal: visited vs. not-visited countries ===== -->
+  <div class="modal-overlay" id="tourModalOverlay">
+    <div class="modal" role="dialog" aria-modal="true" aria-labelledby="tourModalTitle">
+      <div class="modal-header">
+        <div>
+          <h2 class="modal-title" id="tourModalTitle"></h2>
+          <div class="modal-subtitle" id="tourModalSubtitle"></div>
+        </div>
+        <button class="modal-close" id="tourModalClose" type="button" aria-label="Close">&times;</button>
+      </div>
+      <div class="modal-body">
+        <div class="modal-col">
+          <div class="modal-col-title">Countries visited (<span id="visitedCount"></span>)</div>
+          <div class="modal-list" id="visitedList"></div>
+        </div>
+        <div class="modal-col">
+          <div class="modal-col-title">Countries not visited (<span id="notVisitedCount"></span>)</div>
+          <div class="modal-list" id="notVisitedList"></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+<script src="script.js"></script>
+</body>
+</html>
